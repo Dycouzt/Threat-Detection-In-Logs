@@ -1,0 +1,9 @@
+[ALERT] [2025-08-13 22:57:25] Type: SQL Injection Attempt | IP: 10.0.0.5 | Request: "/login.php?user=admin&pass=password' or '1'='1' --"
+[ALERT] [2025-08-13 22:57:25] Type: SQL Injection Attempt | IP: 10.0.0.5 | Request: "/products.php?id=1 UNION SELECT user, pass FROM users"
+[ALERT] [2025-08-13 22:57:25] Type: Directory Traversal Attempt | IP: 203.0.113.78 | Request: "/scripts/..%2f../etc/passwd"
+[ALERT] [2025-08-13 22:57:25] Type: Directory Traversal Attempt | IP: 203.0.113.78 | Request: "/../../../../../../windows/system.ini"
+[ALERT] [2025-08-13 22:57:25] Type: SQL Injection Attempt | IP: 10.10.10.100 | Request: "/search.php?q=dresses%27%3B%20DROP%20TABLE%20products%3B%20--"
+[ALERT] [2025-08-13 22:57:25] Type: SQL Injection Attempt | IP: 10.10.10.101 | Request: "/api/v1/data?query=SELECT%20*%20FROM%20credit_cards"
+[ALERT] [2025-08-13 22:57:25] Type: Directory Traversal Attempt | IP: 172.17.0.5 | Request: "/get-image?file=../../../../../../../../../../etc/shadow"
+[ALERT] [2025-08-13 22:57:25] Type: Directory Traversal Attempt | IP: 192.168.1.22 | Request: "/assets/css/../fonts/fontawesome.woff2"
+[ALERT] [2025-08-13 22:57:25] Type: SSH Brute Force | IP: 172.16.0.10 | Count: 7
