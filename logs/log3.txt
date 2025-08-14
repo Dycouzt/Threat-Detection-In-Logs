@@ -1,0 +1,28 @@
+# /logs/more_apache.log
+
+# --- Scenario 1: Normal, high-volume traffic. Should NOT trigger alerts. ---
+192.168.1.10 - - [14/Aug/2025:10:00:01 +0000] "GET / HTTP/1.1" 200 3056
+192.168.1.11 - - [14/Aug/2025:10:00:02 +0000] "GET /assets/css/style.css HTTP/1.1" 200 8192
+192.168.1.10 - - [14/Aug/2025:10:00:03 +0000] "GET /assets/js/main.js HTTP/1.1" 200 12048
+192.168.1.12 - - [14/Aug/2025:10:00:04 +0000] "GET /images/banner.jpg HTTP/1.1" 200 256000
+192.168.1.10 - - [14/Aug/2025:10:00:05 +0000] "POST /api/submit-form HTTP/1.1" 201 150
+192.168.1.13 - - [14/Aug/2025:10:01:00 +0000] "GET /about-us.html HTTP/1.1" 200 4096
+192.168.1.14 - - [14/Aug/2025:10:01:15 +0000] "GET /nonexistent-page.html HTTP/1.1" 404 208
+
+# --- Scenario 2: More SQL Injection attempts. These SHOULD trigger alerts. ---
+10.10.10.100 - - [14/Aug/2025:10:05:30 +0000] "GET /search.php?q=dresses%27%3B%20DROP%20TABLE%20products%3B%20-- HTTP/1.1" 500 100
+10.10.10.100 - - [14/Aug/2025:10:05:35 +0000] "GET /user.php?id=105%20OR%201=1 HTTP/1.1" 200 1024
+10.10.10.101 - - [14/Aug/2025:10:06:00 +0000] "GET /api/v1/data?query=SELECT%20*%20FROM%20credit_cards HTTP/1.1" 500 100
+
+# --- Scenario 3: More Directory Traversal attempts. These SHOULD trigger alerts. ---
+172.17.0.5 - - [14/Aug/2025:10:10:10 +0000] "GET /..%2e/..%2e/..%2e/..%2e/windows/win.ini HTTP/1.1" 404 208
+172.17.0.5 - - [14/Aug/2025:10:10:15 +0000] "GET /get-image?file=../../../../../../../../../../etc/shadow HTTP/1.1" 404 208
+
+# --- Scenario 4: Benign traffic that looks suspicious. Should NOT trigger alerts. ---
+# The word "select" is present, but it's part of a word and should be ignored by a well-formed regex with word boundaries.
+192.168.1.20 - - [14/Aug/2025:10:15:00 +0000] "GET /products/selection?category=shoes HTTP/1.1" 200 7800
+# The word "union" is present as a company name in a search query.
+192.168.1.21 - - [14/Aug/2025:10:15:10 +0000] "GET /search?q=Western%20Union%20locations HTTP/1.1" 200 5430
+# This path normalization is technically a traversal but common in web development. The current simple detector MAY flag this.
+# This is a good test case to highlight a potential for false positives and future refinement.
+192.168.1.22 - - [14/Aug/2025:10:16:00 +0000] "GET /assets/css/../fonts/fontawesome.woff2 HTTP/1.1" 200 77160

@@ -1,0 +1,6 @@
+192.168.1.1 - - [10/Aug/2025:13:55:36 +0000] "GET /index.html HTTP/1.1" 200 1592
+10.0.0.5 - - [10/Aug/2025:14:01:10 +0000] "GET /login.php?user=admin&pass=password' or '1'='1' -- HTTP/1.1" 200 450
+10.0.0.5 - - [10/Aug/2025:14:02:15 +0000] "GET /products.php?id=1 UNION SELECT user, pass FROM users HTTP/1.1" 500 210
+203.0.113.78 - - [10/Aug/2025:14:05:00 +0000] "GET /scripts/..%2f../etc/passwd HTTP/1.1" 404 312
+203.0.113.78 - - [10/Aug/2025:14:05:05 +0000] "GET /../../../../../../windows/system.ini HTTP/1.1" 404 315
+192.168.1.2 - - [10/Aug/2025:14:10:22 +0000] "GET /images/logo.png HTTP/1.1" 200 5432

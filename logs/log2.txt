@@ -1,0 +1,24 @@
+# /logs/more_ssh.log
+
+# --- Scenario 1: A clear brute-force attack from IP 172.16.0.10. This should trigger an alert. ---
+Aug 14 04:50:05 server sshd[3101]: Failed password for root from 172.16.0.10 port 49152 ssh2
+Aug 14 04:50:07 server sshd[3102]: Failed password for root from 172.16.0.10 port 49153 ssh2
+Aug 14 04:50:09 server sshd[3103]: Failed password for root from 172.16.0.10 port 49154 ssh2
+Aug 14 04:50:11 server sshd[3104]: Failed password for admin from 172.16.0.10 port 49155 ssh2
+Aug 14 04:50:13 server sshd[3105]: Failed password for admin from 172.16.0.10 port 49156 ssh2
+Aug 14 04:50:15 server sshd[3106]: Failed password for admin from 172.16.0.10 port 49157 ssh2
+Aug 14 04:50:17 server sshd[3107]: Failed password for user from 172.16.0.10 port 49158 ssh2
+
+# --- Scenario 2: Normal successful login activity. Should NOT trigger an alert. ---
+Aug 14 04:51:00 server sshd[3201]: Accepted password for devuser from 192.168.1.50 port 12345 ssh2
+Aug 14 04:51:01 server sshd[3201]: pam_unix(sshd:session): session opened for user devuser by (uid=0)
+
+# --- Scenario 3: Failed logins from an IP, but below the brute-force threshold. Should NOT trigger an alert. ---
+Aug 14 04:52:30 server sshd[3301]: Failed password for invalid user oracle from 172.16.0.20 port 50123 ssh2
+Aug 14 04:52:33 server sshd[3302]: Failed password for invalid user oracle from 172.16.0.20 port 50124 ssh2
+Aug 14 04:52:36 server sshd[3303]: Failed password for invalid user oracle from 172.16.0.20 port 50125 ssh2
+
+# --- Scenario 4: Miscellaneous system noise and a single failed login. Should NOT trigger an alert. ---
+Aug 14 04:53:00 server sshd[3201]: pam_unix(sshd:session): session closed for user devuser
+Aug 14 04:53:10 server sshd[3401]: Connection closed by 198.51.100.1 port 1234
+Aug 14 04:53:15 server sshd[3402]: Failed password for guest from 198.51.100.2 port 4321 ssh2
