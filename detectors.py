@@ -10,6 +10,7 @@ def detect_ssh_brute_force(log_entries, config):
         log_entries (list): A list of log entry strings.
         config (dict): Configuration dictionary with 'max_failed_logins'
                        and 'time_window_seconds'.
+                       
     Returns:
         list: A list of alert-worthy events.
     """
